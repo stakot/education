@@ -20,4 +20,17 @@ resource "aws_instance" "web" {
   tags = {
     Name = "HelloWorld"
   }
+   provisioner "remote-exec" {
+ 
+  inline = [
+      "sudo yum update && sudo yum upgrade"
+    ]
+  connection {
+    type     = "ssh"
+    user     = "centos"
+    private_key = "${file("/home/sko/Documents/hillel2.pem")}"
+    host = "${element(aws_instance.web.*.public_ip, 0)}"
+  }
+}
+    
 }
