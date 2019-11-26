@@ -23,7 +23,7 @@ resource "aws_instance" "web" {
    provisioner "remote-exec" {
  
   inline = [
-      "sudo yum update && sudo yum upgrade"
+      "sudo yum update -y"
     ]
   connection {
     type     = "ssh"
