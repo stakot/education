@@ -17,6 +17,10 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
   security_groups = ["${aws_security_group.hillel.name}"]
   key_name   = "hillel2"
+  
+  root_block_device {
+  delete_on_termination = true
+  }
   tags = {
     Name = "HelloWorld"
   }
