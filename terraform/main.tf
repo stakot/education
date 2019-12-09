@@ -25,9 +25,21 @@ resource "aws_instance" "web" {
     Name = "HelloWorld"
   }
    provisioner "remote-exec" {
- 
-  inline = [
-      "sudo yum update -y"
+    inline = [
+      "sudo setenforce Permissive",
+      "sudo echo '${file("/home/sko/edu/terraform/templates_nginx_repo.tmpl")}' >> ~/nginx.repo",
+      "sudo cp ~/nginx.repo /etc/yum.repos.d/nginx.repo",
+      "sudo yum -y install nginx",
+      "sudo yum install -y wget",
+      "sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm", 
+      "sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo",
+      "sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key",
+      "sudo yum -y install  java-1.8.0-openjdk.x86_64",
+      "sudo yum -y install jenkins",
+      "sudo service jenkins start",     
+      "sudo echo '${file("/home/sko/edu/terraform/templates_nginx_config.tmpl")}' >> ~/jenkins.conf",
+      "sudo cp ~/jenkins.conf /etc/nginx/conf.d/jenkins.conf",
+      "sudo rm /etc/nginx/conf.d/default.conf"
     ]
   connection {
     type     = "ssh"
