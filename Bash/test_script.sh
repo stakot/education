@@ -7,7 +7,7 @@ cat /dev/null > $TMP_LIST
 
 if [ -f $FILE_LIST ] 
     then 
-        cat $FILE_LIST | xargs -I {} bash -c "nc -zw 1 {} $PORT 2&>1 > /dev/null && echo {} > $TMP_LIST" 
+        cat $FILE_LIST | xargs -I {} bash -c "nc -zv -w 1 {} $PORT 2&>1 > /dev/null && echo {} >> $TMP_LIST" 
     else 
     echo "$FILE_LIST is not exist" 
 fi 
