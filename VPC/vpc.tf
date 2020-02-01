@@ -25,6 +25,12 @@ resource "aws_security_group" "nat" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }    
+    ingress {
         from_port = -1
         to_port = -1
         protocol = "icmp"
@@ -38,9 +44,15 @@ resource "aws_security_group" "nat" {
         cidr_blocks = ["${var.vpc_cidr}"]
     }
     egress {
-        from_port = -1
-        to_port = -1
-        protocol = "icmp"
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["${var.vpc_cidr}"]
+    }    
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
         cidr_blocks = ["0.0.0.0/0"]
     }
 
@@ -53,7 +65,7 @@ resource "aws_security_group" "nat" {
 
 
 resource "aws_instance" "nat" {
-    ami = "ami-024f6d06263f8bd57" # this is a special ami preconfigured to do Bastion
+    ami = "ami-06a5303d47fbd8c60" # this is a special ami preconfigured to do Bastion
     availability_zone = "eu-central-1a"
     instance_type = "t2.micro"
     key_name = "${var.aws_key_name}"
@@ -61,13 +73,16 @@ resource "aws_instance" "nat" {
     subnet_id = "${aws_subnet.eu-central-1a-public.id}"
     associate_public_ip_address = true
     source_dest_check = false
-
+    
+    root_block_device {
+    delete_on_termination = true
+ }
     tags = {
         Name = "VPC Bastion"
     }
-    connection {
+    connection {    
     type     = "ssh"
-    user     = "ubuntu"
+    user     = "ec2-user"
     private_key = "${file("/home/sko/Documents/hillel2.pem")}"
     host = "${element(aws_instance.web.*.public_ip, 0)}"
   }
