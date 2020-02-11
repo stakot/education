@@ -18,6 +18,12 @@ resource "aws_security_group" "back" {
         cidr_blocks = ["${var.vpc_cidr}"]
     }
 
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
 
     vpc_id = "${aws_vpc.default.id}"
 
@@ -35,6 +41,9 @@ resource "aws_instance" "back-1" {
     subnet_id = "${aws_subnet.eu-central-1a-private.id}"
     source_dest_check = false
 
+    root_block_device {
+      delete_on_termination = true
+ }
     tags ={
         Name = "Backend Server 1"
     }
