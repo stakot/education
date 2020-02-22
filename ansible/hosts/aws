@@ -1,8 +1,0 @@
-[bastion]
-bastion1 ansible_ssh_host=3.126.122.162 ansible_user=ec2-user ansible_ssh_private_key_file=/home/sko/Documents/hillel2.pem
-
-[backend]
-backend1 ansible_ssh_host=10.0.1.174  ansible_user=centos ansible_ssh_private_key_file=/home/sko/Documents/hillel2.pem
-
-[backend:vars]
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p -q ubuntu@3.126.122.162 -i /home/sko/Documents/hillel2.pem"'

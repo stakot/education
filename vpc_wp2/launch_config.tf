@@ -11,7 +11,7 @@ resource "aws_launch_configuration" "web" {
   user_data = <<USER_DATA
 #!/bin/bash
 yum update
-yum -y install nginx
+yum -y install nginx  
 chkconfig nginx on
 service nginx start
   USER_DATA
