@@ -3,3 +3,4 @@ provider "aws" {
   shared_credentials_file = "/home/sko/Documents/credentials.txt"
   profile                 = "aws_hillel"
 }
+#
