@@ -1,0 +1,11 @@
+---
+ timezone: "Europe/Kiev"
+ pkgs_list:
+   - gcc
+   - gcc-c++
+   - make
+   - git
+ users_list:
+  - username: wordpress
+    type: admin
+    state: present

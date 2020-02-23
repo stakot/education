@@ -1,0 +1,27 @@
+---
+- hosts: all
+  gather_facts: false
+  become: true
+  ignore_errors: yes
+  vars:
+    
+  tasks:
+
+  - name: Check 80 port 
+    uri: 
+      url: "http://127.0.0.1"
+      follow_redirects: none
+      method: GET
+    register: _result
+  - debug:
+      var: ec2_id
+    when: _result.status == -1
+
+  - local_action:
+    module: ec2_instance
+    state: stopped
+    region: eu-central-1b
+    instance_ids:
+      - "{{ ec2_id}}" 
+    when: _result.status == -1
+    become: false

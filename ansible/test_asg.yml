@@ -1,0 +1,14 @@
+---
+- hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - apt:
+        update_cache: yes
+        name: [ "nginx", "python3-pip" ]
+        state: present
+
+    - name:           Ensure botocore and boto3 modules are installed
+      pip:
+        name:         [ "boto3", "botocore"]
+        extra_args:   "--user"

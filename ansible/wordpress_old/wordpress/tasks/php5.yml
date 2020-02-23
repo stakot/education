@@ -1,0 +1,29 @@
+---
+ - name: Update the Repositories 
+   yum:
+     update_cache: yes
+ 
+ - name: Install PHP-FPM
+   yum:
+     name: "[php-fpm, php-mysql, php-json, php-opcache, php-mbstring, php-xml, php-gd, php-curl]"
+     state: latest
+   
+ - name: Copy custom www.conf file with the Change in permission of php-fpm.sock
+   copy:
+     src: www.conf
+     dest: /etc/php/fpm/pool.d
+     owner: root
+     group: root
+     backup: yes
+   notify:
+     - Restart PHP-FPM
+
+ - name: Copy custom php.ini file(cgi.fix_pathinfo=0) 
+   copy:
+     src: php.ini
+     dest: /etc/php/fpm
+     owner: root
+     group: root
+     backup: yes
+   notify:
+     - Restart PHP-FPM 
