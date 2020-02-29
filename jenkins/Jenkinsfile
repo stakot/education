@@ -2,7 +2,7 @@ def appName = "my-app"
 def appVersion = "1.0-SNAPSHOT"
 
 
-node('dockerAgent'){
+node('docker_slave'){
     tool name: 'maven', type: 'maven'
     stage('Check prerequests'){
         withEnv(["PATH=${env.PATH}:${tool 'maven'}/bin"]){
@@ -12,7 +12,7 @@ node('dockerAgent'){
         }
     }
     stage('Get sources'){
-        git(url: 'git@github.com:jenkins-docs/simple-java-maven-app.git', branch: "master", credentialsId: 'git')
+        git(url: 'git@github.com:jenkins-docs/simple-java-maven-app.git', branch: "master", credentialsId: 'github-key')
     }
     stage('Build'){
         withEnv(["PATH=${env.PATH}:${tool 'maven'}/bin"]){
@@ -28,7 +28,7 @@ node('dockerAgent'){
         }        
     }
 }
-node('dockerAgent1'){
+node('docker_slave1'){
     tool name: 'docker-latest', type: 'org.jenkinsci.plugins.docker.commons.tools.DockerTool'
     stage('Ckeck prerequest'){
         echo "${tool name: 'docker-latest'}"
@@ -38,7 +38,7 @@ node('dockerAgent1'){
         } 
     }
     stage('Get Dockerfile'){
-        git(url: 'git@github.com:zulus911/lecture23.git', branch: "master", credentialsId: 'git')
+        git(url: 'https://github.com/stakot/education/blob/master/jenkins/', branch: "master", credentialsId: 'git-key')
     }
     stage('unstash our application'){
         unstash 'artifactStash'
