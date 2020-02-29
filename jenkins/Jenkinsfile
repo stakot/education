@@ -38,7 +38,7 @@ node('docker_slave1'){
         } 
     }
     stage('Get Dockerfile'){
-        git(url: 'https://github.com/stakot/education/blob/master/jenkins/', branch: "master", credentialsId: 'git-key')
+        git(url: 'https://github.com/stakot/education/blob/master/jenkins/', branch: "master", credentialsId: 'github-key')
     }
     stage('unstash our application'){
         unstash 'artifactStash'
