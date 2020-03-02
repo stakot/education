@@ -43,10 +43,14 @@ node('docker_slave1'){
     stage('unstash our application'){
         unstash 'artifactStash'
     }
-    stage('Buiuld our Docker'){
+    stage('Build our Docker'){
         withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
             sh "docker build --no-cache --build-arg APP_NAME=${appName} --build-arg APP_VERSION=${appVersion} -t myappdocker ."
         }
-
+    }
+    stage('Push our Docker to dockerhub'){
+        withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
+            sh "docker push madstas/myappdocker ."
+        }
     }
 }
