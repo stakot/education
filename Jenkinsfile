@@ -50,7 +50,7 @@ node('docker_slave1'){
     }
     stage('Push our Docker to dockerhub'){
         withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
-            sh "docker push madstas/myappdocker ."
+            sh "docker push myappdocker ."
         }
     }
 }
