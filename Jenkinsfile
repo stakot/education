@@ -45,12 +45,10 @@ node('docker_slave1'){
     }
     stage('Build our Docker'){
       dockerImage = docker.build("madstas/myappdocker:latest") 
-      
     }
       stage('Push image') {
-        docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub') {
-  }   
-      }
+        docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub')    
+    }
 
 //    stage('Build our Docker'){
 //        withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
