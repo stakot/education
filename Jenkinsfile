@@ -49,3 +49,4 @@ node('docker_slave1'){
       stage('Push image') {
         docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub')    
     }
+}
