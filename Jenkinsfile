@@ -49,15 +49,3 @@ node('docker_slave1'){
       stage('Push image') {
         docker.withRegistry('https://registry-1.docker.io/v2/', 'dockerhub')    
     }
-
-//    stage('Build our Docker'){
-//        withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
-//           sh "docker build --no-cache --build-arg APP_NAME=${appName} --build-arg APP_VERSION=${appVersion} -t madstas/myappdocker ."
-//        }
-//    }
-//    stage('Push our Docker to dockerhub'){
-//        withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
-//           sh "docker push madstas/myappdocker"
-//        }
-//    }
-//}
