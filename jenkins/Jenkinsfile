@@ -49,8 +49,11 @@ node('docker_slave1'){
         }
     }
     stage('Push our Docker to dockerhub'){
-        withEnv(["PATH=${env.PATH}:${tool name: 'docker-latest'}/bin"]){        
-            sh "docker push madstas/myappdocker ."
+        withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker-latest') {
+            withEnv(["PATH=${env.PATH}:${tool 'docker-latest'}/bin"]){
+              def dockerImage = docker.build("docker:tag")
+              dockerImage.push()
+            }
+          }
         }
     }
-}
